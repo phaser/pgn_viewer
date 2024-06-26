@@ -1,0 +1,101 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* This file is for your main application CSS */
+main {
+    @apply max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8;
+}
+
+h1 {
+@apply text-center text-slate-900 font-extrabold text-3xl;
+}
+
+h2 {
+@apply text-center text-slate-800 font-extrabold text-2xl;
+}
+
+h3 {
+@apply text-center text-slate-800 font-bold text-xl;
+}
+  
+.board {
+    @apply flex
+}
+
+.chess_cell {
+    aspect-ratio: 1 / 1;
+    @apply w-16 h-16 align-middle;
+}
+
+.cell_content {
+    @apply w-full h-full outline-black border-black text-center;
+}
+
+.white_cell {
+    background-color: bisque;
+}
+
+.black_cell {
+    background-color: brown;
+}
+
+.chess_row {
+    @apply h-16 align-middle text-center;
+}
+
+.piece {
+    margin-left: auto;
+    margin-right: auto; 
+    width: 60px; 
+    height: 60px
+}
+
+button {
+    @apply py-2 px-4 mt-6 border border-transparent font-semibold text-base rounded-md text-white bg-green-500 transition duration-150 ease-in-out outline-none hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500;
+}
+
+#board_navigation {
+    @apply w-full;
+}
+
+#main_content {
+    @apply w-full align-middle text-center;
+}
+
+#game_info {
+    background-color: #eee;
+    @apply shadow-md m-8 w-44;
+}
+
+.property {
+    font-size: x-small;
+    @apply flex ml-1;
+}
+
+.property div {
+    @apply flex-col w-full text-left;
+}
+
+.captures {
+    margin-bottom: 20px;
+    height: 32px;
+    @apply w-full flex;
+}
+
+.captures img {
+    width: 32px; 
+    height: 32px
+}
+
+.game_form {
+    @apply bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 dark:bg-gray-100;
+}
+
+.game_form textarea {
+    @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}
+
+.game_form button {
+    @apply py-2 px-4 mt-6 border border-transparent font-semibold text-base rounded-md text-white bg-green-500 transition duration-150 ease-in-out outline-none hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500    
+}
