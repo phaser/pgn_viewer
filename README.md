@@ -1,5 +1,6 @@
-# ChessBoard
+# PGN Viewer
 
+https://github.com/phaser/pgn_viewer/actions/workflows/elixir.yml/badge.svg
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
