@@ -198,20 +198,28 @@ defmodule ChessBoardWeb.ChessBoardLive do
     IO.puts "move pawn #{inspect move_info} #{c}"
     board = socket.assigns.board
     piece = "#{String.downcase(move_info.piece)}#{c}"
-    selected_key = if move_info.captures do
+    offset = (if c == "lt", do: -1, else: 1);
+    [selected_key, captures, new_board] = if move_info.captures do
       source_column = String.at(move_info.move_string, 0);
       source_row = elem(Integer.parse(row), 0) + if c == "lt", do: -1, else: 1
-      "#{source_column}#{source_row}"
+      [new_captures, nboard] = if board["#{col}#{row}"].piece == nil do
+        # en passant capture
+        nrow = "#{elem(Integer.parse(row), 0) + offset}"
+        [get_capture(%{row: nrow, col: col, piece: piece, socket: socket}), %{ board | "#{col}#{nrow}" => %{piece: nil}}]
+      else
+        [get_capture(%{row: row, col: col, piece: piece, socket: socket}), board]
+      end
+      ["#{source_column}#{source_row}", new_captures, nboard]
     else
-      pspots = (if c == "lt", do: [-1], else: [1]) # pawns for white move from bottom, while from black from top
+      pspots = [offset] # pawns for white move from bottom, while from black from top
         ++ (if (c == "lt" && row == "4"), do: [-2], else: []) # for row 4 for white we can move from back two squares
         ++ (if (c == "dt" && row == "5"), do: [2], else: []) # for row 5 for black we can move from back two squares
       possible_source_keys = pspots |> Enum.map(fn offset -> "#{col}#{elem(Integer.parse(row), 0) + offset}" end)
-      hd(possible_source_keys |> Enum.filter(fn key -> Map.has_key?(board, key) && board[key].piece != nil end))
+      [hd(possible_source_keys |> Enum.filter(fn key -> Map.has_key?(board, key) && board[key].piece != nil end)), socket.assigns.game.captures, board]
     end
     assign(socket,
-      board: %{board | "#{col}#{row}" => %{piece: piece}, selected_key => %{piece: nil}},
-      game: %Game{socket.assigns.game | captures: get_capture(%{row: row, col: col, piece: piece, socket: socket})})
+      board: %{new_board | "#{col}#{row}" => %{piece: piece}, selected_key => %{piece: nil}},
+      game: %Game{socket.assigns.game | captures: captures})
   end
 
   defp get_capture(%{row: row, col: col, socket: socket}) do
