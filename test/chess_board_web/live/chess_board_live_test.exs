@@ -5,8 +5,6 @@ defmodule ChessBoardWeb.ChessBoardLiveTest do
   @test_game1 "[Event \"testing en passant\"]\n[Site \"test site\"]\n[Date \"2024.02.03\"]\n[Round \"1\"]\n[White \"Cristianus\"]\n[Black \"Loraine\"]\n[Result \"1-0\"]\n\n1. d4 c6 2. d5 e5 3. dxe6 d5 1-0"
   @test_game1_base64 "W0V2ZW50ICJ0ZXN0aW5nIGVuIHBhc3NhbnQiXQpbU2l0ZSAidGVzdCBzaXRlIl0KW0RhdGUgIjIwMjQuMDIuMDMiXQpbUm91bmQgIjEiXQpbV2hpdGUgIkNyaXN0aWFudXMiXQpbQmxhY2sgIkxvcmFpbmUiXQpbUmVzdWx0ICIxLTAiXQoKMS4gZDQgYzYgMi4gZDUgZTUgMy4gZHhlNiBkNSAxLTA%3D"
   @game_enter_textarea "<textarea name=\"game\" rows=\"4\" placeholder=\"Enter game here!\"></textarea>"
-  @wc "white_cell"
-  @bc "black_cell"
 
   use ChessBoardWeb.ConnCase
 
@@ -43,7 +41,7 @@ defmodule ChessBoardWeb.ChessBoardLiveTest do
       [get_cell("c6", "pdt"), get_cell("c7", "")],
       [get_cell("d5", "plt"), get_cell("d4", "")],
       [get_cell("e5", "pdt"), get_cell("e7", "")],
-      [get_cell("e6", "plt"), get_cell("e5", ""), get_cell("d5", ""), "<div class=\"captures\"><div><img src=\"/images/Chess_pdt45.svg\"/></div></div>"]
+      [get_cell("e6", "plt"), get_cell("e5", ""), get_cell("d5", ""), get_captures(["pdt"])]
     ]
 
     asserts
@@ -62,5 +60,12 @@ defmodule ChessBoardWeb.ChessBoardLiveTest do
     color = ChessBoardWeb.ChessBoardLive.black_or_white(String.at(position, 1), String.at(position, 0))
     content = if piece != "", do: "<img class=\"piece\" src=\"/images/Chess_#{piece}45.svg\"/>", else: ""
     "<div class=\"cell_content #{color}\"><!-- #{position} -->#{content}</div>"
+  end
+
+  defp get_captures(pieces) do
+    str_pieces = pieces
+    |> Enum.map(fn piece -> "<div><img src=\"/images/Chess_#{piece}45.svg\"/></div>" end)
+    |> Enum.join("")
+    "<div class=\"captures\">#{str_pieces}</div>"
   end
 end
