@@ -57,10 +57,10 @@ defmodule ChessBoardWeb.ChessBoardLive do
           </div>
         </div>
         <div id="board_navigation" :if={@game != nil}>
-            <button :if={@game.status == "not started"} disabled> &lt; </button>
+            <button id="btn_prev" :if={@game.status == "not started"} disabled> &lt; </button>
             <button :if={@game.status != "not started"} phx-click="previous-move"> &lt; </button>
             <span class="w-xl m-8">move: <%= @game.step %> / round: <%= Integer.floor_div(@game.step + 1, 2) %> </span>
-            <button :if={@game.status != "ended"} phx-click="next-move"> &gt; </button>
+            <button id="btn_next" :if={@game.status != "ended"} phx-click="next-move"> &gt; </button>
         </div>
       </div>
     """
