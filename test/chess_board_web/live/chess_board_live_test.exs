@@ -4,6 +4,7 @@ defmodule ChessBoardWeb.ChessBoardLiveTest do
   @endpoint ChessBoardWeb.ChessBoardLive
   @test_game1 "[Event \"testing en passant\"]\n[Site \"test site\"]\n[Date \"2024.02.03\"]\n[Round \"1\"]\n[White \"Cristianus\"]\n[Black \"Loraine\"]\n[Result \"1-0\"]\n\n1. d4 c6 2. d5 e5 3. dxe6 d5 1-0"
   @test_game1_base64 "W0V2ZW50ICJ0ZXN0aW5nIGVuIHBhc3NhbnQiXQpbU2l0ZSAidGVzdCBzaXRlIl0KW0RhdGUgIjIwMjQuMDIuMDMiXQpbUm91bmQgIjEiXQpbV2hpdGUgIkNyaXN0aWFudXMiXQpbQmxhY2sgIkxvcmFpbmUiXQpbUmVzdWx0ICIxLTAiXQoKMS4gZDQgYzYgMi4gZDUgZTUgMy4gZHhlNiBkNSAxLTA%3D"
+  @test_game2_base64 "W0V2ZW50ICJ0ZXN0aW5nIGVuIHBhc3NhbnQiXQpbU2l0ZSAidGVzdCBzaXRlIl0KW0RhdGUgIjIwMjQuMDIuMDMiXQpbUm91bmQgIjEiXQpbV2hpdGUgIkNyaXN0aWFudXMiXQpbQmxhY2sgIkxvcmFpbmUiXQpbUmVzdWx0ICIxLTAiXQoKMS4gZDQgYzYgMi4gZDUgZTUgMy4gZHhlNiAxLTA%3D"
   @game_enter_textarea "<textarea name=\"game\" rows=\"4\" placeholder=\"Enter game here!\"></textarea>"
 
   use ChessBoardWeb.ConnCase
@@ -54,6 +55,16 @@ defmodule ChessBoardWeb.ChessBoardLiveTest do
           assert result =~ text
         end)
     end)
+  end
+
+  test "if game finishes at white, it's handled gracefully", %{conn: conn} do
+    # if last move isn't black, the process crashed... this is to test for that
+    conn = get(conn, "/?game=#{@test_game2_base64}")
+    {:ok, view, html} = live(conn)
+    refute html =~ @game_enter_textarea
+
+    Enum.to_list(1..6)
+    |> Enum.each(fn _ -> view |> element("button#btn_next") |> render_click() end)
   end
 
   defp get_cell(position, piece) do
