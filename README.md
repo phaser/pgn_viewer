@@ -2,6 +2,10 @@
 
 ![Build & Tests](https://github.com/phaser/pgn_viewer/actions/workflows/elixir.yml/badge.svg)
 
+This is a project I did while learning Elixir and Phoenix Live, to better explore the language and web framework.
+
+## How to run
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
