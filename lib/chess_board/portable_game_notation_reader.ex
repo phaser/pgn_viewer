@@ -40,10 +40,14 @@ defmodule ChessBoard.PortableGameNotationReader do
   end
 
   def valid_move(move) do
-    valid_chars =
-      Enum.to_list(?1..?8) ++
-      Enum.to_list(?a..?h) ++ [?Q, ?K, ?B, ?N, ?R, ?x, ?+, ?#, ?=]
-    String.graphemes(move) |> Enum.all?(fn c -> hd(String.to_charlist(c)) in valid_chars end)
+    if String.length(move) == 0 do
+       false
+    else
+      valid_chars =
+        Enum.to_list(?1..?8) ++
+        Enum.to_list(?a..?h) ++ [?Q, ?K, ?B, ?N, ?R, ?O, ?-, ?x, ?+, ?#, ?=]
+      String.graphemes(move) |> Enum.all?(fn c -> hd(String.to_charlist(c)) in valid_chars end)
+    end
   end
 
   def invalid_move(move), do: !valid_move(move)

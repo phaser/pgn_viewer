@@ -110,6 +110,7 @@ defmodule ChessBoardWeb.ChessBoardLive do
         |> Enum.take(1)
         |> List.flatten
       move = if Integer.is_odd(step), do: hd(move_pair), else: (if Enum.count(move_pair) > 1, do: hd(tl(move_pair)), else: nil)
+      IO.puts "move: #{move}"
       if move != nil do
         socket = do_move(move_info(move, step), socket)
         {:noreply, assign(socket, game: %{socket.assigns.game | step: step, status: "in progress"})}
@@ -185,7 +186,7 @@ defmodule ChessBoardWeb.ChessBoardLive do
     IO.puts "castle #{inspect move_info}"
     tomove = if castle == 2 do
       # castle queen side
-      if c == "lt", do: {"a1", "c1", "b1", "e1"}, else: {"a8", "c8", "b8", "e8"}
+      if c == "lt", do: {"a1", "c1", "b1", "e1"}, else: {"a8", "d8", "c8", "e8"}
     else
       # castle king side
       if c == "lt", do: {"h1", "f1", "g1", "e1"}, else: {"h8", "f8", "g8", "e8"}
