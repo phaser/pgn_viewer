@@ -16,8 +16,8 @@ defmodule ChessBoard.PortableGameNotationReader do
     tg = decode_from_base64(pgn_base64)
     [properties, game] = tg |> String.split("\n\n")
     propsMap = extract_properties(properties)
-    %{moves: moves, result: result} = extract_moves(game)
-    %Game{properties: propsMap, moves: moves, result: result}
+    %{moves: moves, result: result, meta_moves: meta_moves} = extract_moves(game)
+    %Game{properties: propsMap, moves: moves, result: result, meta_moves: meta_moves}
   end
 
   defp extract_properties(properties) do
@@ -34,11 +34,17 @@ defmodule ChessBoard.PortableGameNotationReader do
   defp extract_moves(game) do
     moves = Regex.split(~r/\d+\. ?/, game)
     |> Enum.map(fn m -> String.trim(m) |> String.split(" ") end)
-    last = List.last(moves)
-    new_last = [hd(last), hd(tl(last))]
-    result = tl(tl(last)) |> Enum.join(" ")
-    moves = List.delete(moves, last)
-    moves = List.insert_at(moves, Enum.count(moves), new_last)
-    %{moves: moves, result: result}
+    valid_moves = moves |> Enum.map(fn m -> m |> Enum.filter(&valid_move(&1)) end)
+    meta_moves = moves |> Enum.map(fn m -> m |> Enum.filter(&invalid_move(&1)) end)
+    %{moves: valid_moves, meta_moves: meta_moves, result: ""}
   end
+
+  def valid_move(move) do
+    valid_chars =
+      Enum.to_list(?1..?8) ++
+      Enum.to_list(?a..?h) ++ [?Q, ?K, ?B, ?N, ?R, ?x, ?+, ?#, ?=]
+    String.graphemes(move) |> Enum.all?(fn c -> hd(String.to_charlist(c)) in valid_chars end)
+  end
+
+  def invalid_move(move), do: !valid_move(move)
 end

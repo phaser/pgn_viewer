@@ -109,9 +109,13 @@ defmodule ChessBoardWeb.ChessBoardLive do
         |> Enum.drop(pos)
         |> Enum.take(1)
         |> List.flatten
-      move = if Integer.is_odd(step), do: hd(move_pair), else: hd(tl(move_pair))
-      socket = do_move(move_info(move, step), socket)
-      {:noreply, assign(socket, game: %{socket.assigns.game | step: step, status: "in progress"})}
+      move = if Integer.is_odd(step), do: hd(move_pair), else: (if Enum.count(move_pair) > 1, do: hd(tl(move_pair)), else: nil)
+      if move != nil do
+        socket = do_move(move_info(move, step), socket)
+        {:noreply, assign(socket, game: %{socket.assigns.game | step: step, status: "in progress"})}
+      else
+        {:noreply, assign(socket, game: %{socket.assigns.game | status: "ended"})}
+      end
     end
   end
 
