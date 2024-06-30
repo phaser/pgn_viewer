@@ -4,29 +4,24 @@
 
 /* This file is for your main application CSS */
 main {
-    @apply max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8;
+    @apply max-w-6xl mx-auto;
 }
 
 h1 {
-@apply text-center text-slate-900 font-extrabold text-3xl;
+    @apply text-center text-slate-900 font-extrabold text-3xl;
 }
 
 h2 {
-@apply text-center text-slate-800 font-extrabold text-2xl;
+    @apply text-center text-slate-800 font-extrabold text-2xl;
 }
 
 h3 {
-@apply text-center text-slate-800 font-bold text-xl;
+    @apply text-center text-slate-800 font-bold text-xl;
 }
-  
+
 .board {
     @apply flex w-full;
     justify-content: center;
-}
-
-.chess_cell {
-    aspect-ratio: 1 / 1;
-    @apply w-16 h-16 align-middle;
 }
 
 .cell_content {
@@ -43,14 +38,33 @@ h3 {
 }
 
 .chess_row {
-    @apply h-16 align-middle text-center;
+    @apply align-middle text-center;
 }
 
-.piece {
-    margin-left: auto;
-    margin-right: auto; 
-    width: 60px; 
-    height: 60px
+@media only screen and (min-width: 375px) {
+    .chess_cell {
+        aspect-ratio: 1 / 1;
+        @apply w-8 h-8 align-middle;
+    }
+
+    .piece {
+        margin-left: auto;
+        margin-right: auto; 
+        @apply h-8 w-8;
+    }
+}
+
+@media only screen and (min-width: 1281px) {
+    .chess_cell {
+        aspect-ratio: 1 / 1;
+        @apply w-16 h-16 align-middle;
+    }
+
+    .piece {
+        margin-left: auto;
+        margin-right: auto; 
+        @apply h-16 w-16;
+    }
 }
 
 button {
@@ -67,7 +81,8 @@ button {
 
 #game_info {
     background-color: #eee;
-    @apply shadow-md m-8 w-44;
+    @apply shadow-md ml-16 mr-16;
+    justify-content: center;
 }
 
 .property {
@@ -80,14 +95,14 @@ button {
 }
 
 .captures {
-    margin-bottom: 20px;
-    height: 32px;
+    margin-bottom: 1.4rem;
+    height: 2rem;
     @apply w-full flex;
 }
 
 .captures img {
-    width: 32px; 
-    height: 32px
+    width: 2.1rem; 
+    height: 2.1rem;
 }
 
 .game_form {

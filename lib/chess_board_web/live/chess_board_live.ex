@@ -49,12 +49,12 @@ defmodule ChessBoardWeb.ChessBoardLive do
           </tr>
           <th :for={l <- [""] ++ columns() ++ [""]}><%= l %></th>
         </table>
+        </div>
         <div id="game_info">
           <h3>Game Info</h3>
           <div :for={p <- @game.properties} class="property"><div><%= elem(p, 0) %></div><div><%= elem(p, 1) %></div>
           </div>
           <h4>Status - <%= @game.status %></h4>
-          </div>
         </div>
         <div id="board_navigation" :if={@game != nil}>
             <button id="btn_prev" :if={@game.status == "not started"} disabled> &lt; </button>
