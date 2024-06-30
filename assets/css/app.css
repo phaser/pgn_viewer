@@ -21,6 +21,7 @@ h3 {
   
 .board {
     @apply flex w-full;
+    justify-content: center;
 }
 
 .chess_cell {
