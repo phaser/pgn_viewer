@@ -20,7 +20,7 @@ h3 {
 }
   
 .board {
-    @apply flex
+    @apply flex w-full;
 }
 
 .chess_cell {
@@ -29,6 +29,7 @@ h3 {
 }
 
 .cell_content {
+    aspect-ratio: 1 / 1;
     @apply w-full h-full outline-black border-black text-center;
 }
 
